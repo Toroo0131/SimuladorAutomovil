@@ -9,7 +9,7 @@ package autonoma.simmuladorautonoma.exception;
  * @author Estudiante
  */
 public class VehiculoException extends Exception {
-    public VehiculoException(String message) {
-        super(message);
+    public VehiculoException(String mensaje) {
+        super(mensaje);
     }
 }

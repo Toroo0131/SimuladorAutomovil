@@ -1,27 +1,29 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package autonoma.simuladorautomovil.models;
 
-import autonoma.simmuladorautonoma.exception.ConfiguracionException;
+package autonoma.simuladorautomovil.models;
 
 
 
 public class Llantas {
-    private String tipo;
-    private int limitePermitido;
+    private int presion;
 
-    public Llantas(String tipo) throws ConfiguracionException {
-        this.tipo = tipo;
-        switch (tipo) {
-            case "Buenas": limitePermitido = 110; break;
-            case "Bonitas": limitePermitido = 70; break;
-            case "Baratas": limitePermitido = 50; break;
-            default: throw new ConfiguracionException("Tipo de llantas no válido: " + tipo);
-        }
+    public Llantas() {
+        this.presion = 32; // Valor por defecto en psi
     }
 
-    public String getTipo() { return tipo; }
-    public int getLimitePermitido() { return limitePermitido; }
+    public int getPresion() {
+        return presion;
+    }
+
+    public void inflar(int cantidad) {
+        this.presion += cantidad;
+    }
+
+    public void desinflar(int cantidad) {
+        this.presion = Math.max(0, this.presion - cantidad);
+    }
+
+    @Override
+    public String toString() {
+        return "Presión actual de las llantas: " + presion + " psi";
+    }
 }

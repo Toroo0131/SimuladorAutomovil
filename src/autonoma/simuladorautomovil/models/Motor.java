@@ -4,24 +4,29 @@
  */
 package autonoma.simuladorautomovil.models;
 
-import autonoma.simmuladorautonoma.exception.ConfiguracionException;
-
 
 
 public class Motor {
-    private String cilindraje;
-    private int velocidadMaxima;
+    private boolean enFuncionamiento;
 
-    public Motor(String cilindraje) throws ConfiguracionException {
-        this.cilindraje = cilindraje;
-        switch (cilindraje) {
-            case "1000 cc": velocidadMaxima = 100; break;
-            case "2000 cc": velocidadMaxima = 160; break;
-            case "3000 cc": velocidadMaxima = 220; break;
-            default: throw new ConfiguracionException("Cilindraje no válido: " + cilindraje);
-        }
+    public Motor() {
+        this.enFuncionamiento = false;
     }
 
-    public String getCilindraje() { return cilindraje; }
-    public int getVelocidadMaxima() { return velocidadMaxima; }
+    public boolean isEnFuncionamiento() {
+        return enFuncionamiento;
+    }
+
+    public void arrancar() {
+        this.enFuncionamiento = true;
+    }
+
+    public void detener() {
+        this.enFuncionamiento = false;
+    }
+
+    @Override
+    public String toString() {
+        return enFuncionamiento ? "Motor en funcionamiento" : "Motor detenido";
+    }
 }
