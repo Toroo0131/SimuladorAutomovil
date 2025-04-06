@@ -6,8 +6,11 @@ package autonoma.simuladorautomovil.models;
 
 /**
  *
- * @author Salo
+ * @author SalomeC
  */
+
+import autonoma.simmuladorautonoma.exception.VehiculoException;
+
 public class Vehiculo {
     private Motor motor;
     private Llantas llantas;
@@ -26,107 +29,79 @@ public class Vehiculo {
     }
 
     public void encender() throws VehiculoException {
-        if (accidentado) {
-            throw new VehiculoException("El vehículo está accidentado y no puede encenderse");
-        }
-        if (encendido) {
-            throw new VehiculoException("El vehículo ya está encendido");
-        }
+        if (accidentado) throw new VehiculoException("El vehículo está accidentado");
+        if (encendido) throw new VehiculoException("El vehículo ya está encendido");
         encendido = true;
-        System.out.println("Vehículo encendido");
     }
 
     public void apagar() throws VehiculoException {
-        if (!encendido) {
-            throw new VehiculoException("El vehículo ya está apagado");
-        }
+        if (!encendido) throw new VehiculoException("El vehículo ya está apagado");
         if (velocidad > 60) {
-            accidentar("El vehículo se apagó a alta velocidad");
-            throw new VehiculoException("El vehículo se accidentó al apagarse a alta velocidad");
+            accidentar("Apagado a alta velocidad");
+            throw new VehiculoException("¡Accidente! No se puede apagar a más de 60 km/h");
         }
         encendido = false;
         velocidad = 0;
-        System.out.println("Vehículo apagado");
     }
 
     public void acelerar(int incremento) throws VehiculoException {
-        if (!encendido) {
-            throw new VehiculoException("El vehículo está apagado y no puede acelerar");
-        }
-        if (accidentado) {
-            throw new VehiculoException("El vehículo está accidentado");
-        }
-        if (patinando) {
-            throw new VehiculoException("El vehículo está patinando, no se puede acelerar hasta detenerse");
-        }
+        if (!encendido) throw new VehiculoException("El vehículo está apagado");
+        if (accidentado) throw new VehiculoException("El vehículo está accidentado");
+        if (patinando) throw new VehiculoException("El vehículo está patinando");
 
         int nuevaVelocidad = velocidad + incremento;
         if (nuevaVelocidad > motor.getVelocidadMaxima()) {
-            accidentar("El vehículo excedió la velocidad máxima del motor");
-            throw new VehiculoException("El motor no soporta esa velocidad");
+            accidentar("Exceso de velocidad del motor");
+            throw new VehiculoException("¡Accidente! Velocidad máxima excedida");
         }
-
         velocidad = nuevaVelocidad;
-        System.out.println("Acelerando. Velocidad actual: " + velocidad + " km/h");
     }
 
     public void frenar(int decremento) throws VehiculoException {
-        if (!encendido) {
-            throw new VehiculoException("El vehículo está apagado y no puede frenar");
-        }
-        if (accidentado) {
-            throw new VehiculoException("El vehículo está accidentado");
-        }
-        if (patinando) {
-            throw new VehiculoException("El vehículo está patinando, no se puede frenar más hasta detenerse");
-        }
-        if (velocidad == 0) {
-            System.out.println("El vehículo ya está detenido");
-            return;
-        }
+        if (!encendido) throw new VehiculoException("El vehículo está apagado");
+        if (accidentado) throw new VehiculoException("El vehículo está accidentado");
+        if (patinando) throw new VehiculoException("El vehículo está patinando");
+        if (velocidad == 0) return;
 
         boolean frenadoBrusco = decremento > 30;
-        
         if (frenadoBrusco && velocidad > llantas.getLimitePermitido()) {
-            patinar("Frenado brusco a alta velocidad");
-            throw new VehiculoException("El vehículo patinó por frenado brusco a alta velocidad");
+            patinar();
+            throw new VehiculoException("¡Patinando! Frenado brusco a alta velocidad");
         }
-        
+
         if (decremento > velocidad) {
-            patinar("Frenado con intensidad mayor a la velocidad actual");
-            throw new VehiculoException("El vehículo patinó por exceso de frenado");
+            patinar();
+            throw new VehiculoException("¡Patinando! Frenado demasiado fuerte");
         }
 
         velocidad = Math.max(0, velocidad - decremento);
-        if (velocidad == 0) {
-            patinando = false; // Se recupera el control al detenerse
-        }
-        System.out.println("Frenando. Velocidad actual: " + velocidad + " km/h");
+        if (velocidad == 0) patinando = false;
     }
 
     private void accidentar(String razon) {
         velocidad = 0;
         encendido = false;
         accidentado = true;
-        System.out.println("¡ACCIDENTE! Razón: " + razon);
     }
 
-    private void patinar(String razon) {
+    private void patinar() {
         patinando = true;
-        System.out.println("¡PATINANDO! Razón: " + razon);
     }
+
+    // Getters
+    public boolean isEncendido() { return encendido; }
+    public int getVelocidad() { return velocidad; }
+    public boolean isPatinando() { return patinando; }
+    public boolean isAccidentado() { return accidentado; }
+    public Motor getMotor() { return motor; }
+    public Llantas getLlantas() { return llantas; }
 
     @Override
     public String toString() {
-        return String.format("Estado del vehículo:%n" +
-                           "- Motor: %s (Vel. máx: %d km/h)%n" +
-                           "- Llantas: %s (Límite: %d km/h)%n" +
-                           "- Encendido: %b%n" +
-                           "- Velocidad: %d km/h%n" +
-                           "- Patinando: %b%n" +
-                           "- Accidentado: %b",
-                           motor.getCilindraje(), motor.getVelocidadMaxima(),
-                           llantas.getTipo(), llantas.getLimitePermitido(),
-                           encendido, velocidad, patinando, accidentado);
+        return String.format("Estado: %s | Velocidad: %d km/h | %s | %s",
+            encendido ? "ENCENDIDO" : "APAGADO",
+            velocidad,
+            patinando ? "PATINANDO" : "Control normal",
+            accidentado ? "¡ACCIDENTADO!" : "Operativo");
     }
 }

@@ -4,6 +4,8 @@
  */
 package autonoma.simuladorautonoma.views;
 
+import autonoma.simuladorautomovil.models.Vehiculo;
+
 /**
  *
  * @author Estudiante
@@ -13,7 +15,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form VentanaPrincipal
      */
-    public VentanaPrincipal() {
+    public VentanaPrincipal(Vehiculo vehiculo) {
         initComponents();
     }
 
@@ -84,7 +86,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VentanaPrincipal().setVisible(true);
+                new VentanaPrincipal(vehiculo).setVisible(true);
             }
         });
     }

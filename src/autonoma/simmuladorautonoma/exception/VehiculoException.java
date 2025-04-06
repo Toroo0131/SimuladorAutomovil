@@ -6,8 +6,10 @@ package autonoma.simmuladorautonoma.exception;
 
 /**
  *
- * @author Salo
+ * @author Estudiante
  */
-public class Camion {
-    public int num;
+public class VehiculoException extends Exception {
+    public VehiculoException(String message) {
+        super(message);
+    }
 }
