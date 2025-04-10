@@ -79,7 +79,7 @@ public class SimuladorApp {
                 String input = JOptionPane.showInputDialog("¿Cuánto deseas acelerar?");
                 int valor = Integer.parseInt(input);
                 vehiculo.acelerar(valor);
-            } catch (VehiculoException | NumberFormatException ex) {
+            } catch (NumberFormatException ex) {
                 mostrarError(ex.getMessage());
             }
             actualizarEstado();
@@ -91,7 +91,7 @@ public class SimuladorApp {
                 String input = JOptionPane.showInputDialog("¿Cuánto deseas frenar?");
                 int valor = Integer.parseInt(input);
                 vehiculo.frenar(valor);
-            } catch (VehiculoException | NumberFormatException ex) {
+            } catch (NumberFormatException ex) {
                 mostrarError(ex.getMessage());
             }
             actualizarEstado();

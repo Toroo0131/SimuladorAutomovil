@@ -1,80 +1,19 @@
 
 package autonoma.simuladorautonoma.views;
 
-import autonoma.simmuladorautonoma.exception.VehiculoException;
 import autonoma.simuladorautomovil.models.Vehiculo;
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
-    private void mostrarEstado() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-/**
- *
- * @author Estudiante
- */
+ 
+
 public class VentanaPrincipal extends javax.swing.JFrame {
     
-    private Vehiculo vehiculo;
-    private JTextArea areaEstado;
+  
 
     public VentanaPrincipal(Vehiculo vehiculo) {
-        vehiculo = new Vehiculo();
-        inicializarComponentes();
-        mostrarEstado();
+        
+       
     }
-    private void inicializarComponentes() {
-        setTitle("Simulador de Automóvil");
-        setSize(450, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-
-        areaEstado = new JTextArea();
-        areaEstado.setEditable(false);
-        JScrollPane scroll = new JScrollPane(areaEstado);
-
-        JPanel panelBotones = new JPanel(new GridLayout(3, 2, 10, 10));
-
-        JButton btnEncender = new JButton("Encender");
-        btnEncender.addActionListener(this::encenderVehiculo);
-
-        JButton btnApagar = new JButton("Apagar");
-        btnApagar.addActionListener(this::apagarVehiculo);
-
-        JButton btnAcelerar = new JButton("Acelerar");
-        btnAcelerar.addActionListener(this::acelerarVehiculo);
-
-        JButton btnFrenar = new JButton("Frenar");
-        btnFrenar.addActionListener(this::frenarVehiculo);
-
-        JButton btnMotor = new JButton("Estado del Motor");
-        btnMotor.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, vehiculo.getMotor().toString());
-        });
-
-        JButton btnLlantas = new JButton("Estado de Llantas");
-        btnLlantas.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, vehiculo.getLlantas().toString());
-        });
-
-        panelBotones.add(btnEncender);
-        panelBotones.add(btnApagar);
-        panelBotones.add(btnAcelerar);
-        panelBotones.add(btnFrenar);
-        panelBotones.add(btnMotor);
-        panelBotones.add(btnLlantas);
-
-        add(scroll, BorderLayout.CENTER);
-        add(panelBotones, BorderLayout.SOUTH);
-
-        setVisible(true);
-    }
-
+ 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -245,86 +184,29 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-         mostrarEstado();
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jbEncenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEncenderActionPerformed
-   try {
-        vehiculo.encender();
-        vehiculo.getMotor().arrancar();
-    } catch (VehiculoException ex) {
-        mostrarError(ex.getMessage());
-    }
-    mostrarEstado();
-}
-
-        private void mostrarError(String message) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
 
     }//GEN-LAST:event_jbEncenderActionPerformed
 
     private void jbFrenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFrenarActionPerformed
-    try {
-        String input = JOptionPane.showInputDialog(this, "¿Cuánto deseas frenar?");
-        int reduccion = Integer.parseInt(input);
-        vehiculo.frenar(reduccion);
-    } catch (NumberFormatException ex) {
-        mostrarError("Debes ingresar un número válido.");
-    } catch (VehiculoException ex) {
-        mostrarError(ex.getMessage());
-    }
-    mostrarEstado();
-
+ 
     }//GEN-LAST:event_jbFrenarActionPerformed
 
     private void jbLlantasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLlantasActionPerformed
-      JOptionPane.showMessageDialog(this, vehiculo.getLlantas().toString(), "Estado de Llantas", JOptionPane.INFORMATION_MESSAGE);
+     
     }//GEN-LAST:event_jbLlantasActionPerformed
 
     private void jbApagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbApagarActionPerformed
-    try {
-        vehiculo.apagar();
-        vehiculo.getMotor().detener();
-    } catch (VehiculoException ex) {
-        mostrarError(ex.getMessage());
-    }
-    mostrarEstado();
-}
+
 
     }//GEN-LAST:event_jbApagarActionPerformed
 
     private void jbAcelerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAcelerarActionPerformed
-    try {
-        String input = JOptionPane.showInputDialog(this, "¿Cuánto acelerar?");
-        int valor = Integer.parseInt(input);
-        vehiculo.acelerar(valor);
-    } catch (NumberFormatException ex) {
-        mostrarError("Ingresa un número válido.");
-    } catch (VehiculoException ex) {
-        mostrarError(ex.getMessage());
-    }
-    mostrarEstado();
-});
-   
+
     }//GEN-LAST:event_jbAcelerarActionPerformed
-
-    private void mostrarEstado() {
-        String estado = "Vehículo " + (vehiculo.isEncendido() ? "encendido" : "apagado") + "\n"
-                + "Velocidad actual: " + vehiculo.getVelocidad() + " km/h\n"
-                + vehiculo.getMotor().toString() + "\n"
-                + vehiculo.getLlantas().toString();
-        areaEstado.setText(estado);
-    }
-
-    private void mostrarError(String mensaje) {
-        JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(VentanaPrincipal::new);
-    }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

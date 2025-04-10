@@ -8,6 +8,7 @@ package autonoma.simuladorautomovil.models;
 
 import autonoma.simmuladorautonoma.exception.VehiculoException;
 
+
 public class Vehiculo {
     private boolean encendido;
     private int velocidad;
@@ -19,46 +20,6 @@ public class Vehiculo {
         this.velocidad = 0;
         this.motor = new Motor();
         this.llantas = new Llantas();
-    }
-
-    public void encender() throws VehiculoException {
-        if (encendido) {
-            throw new VehiculoException("El vehículo ya está encendido.");
-        }
-        encendido = true;
-    }
-
-    public void apagar() throws VehiculoException {
-        if (!encendido) {
-            throw new VehiculoException("El vehículo ya está apagado.");
-        }
-        if (velocidad > 0) {
-            throw new VehiculoException("No se puede apagar el vehículo en movimiento.");
-        }
-        encendido = false;
-    }
-
-    public void acelerar(int incremento) throws VehiculoException {
-        if (!encendido) {
-            throw new VehiculoException("Debe encender el vehículo primero.");
-        }
-        if (incremento <= 0) {
-            throw new VehiculoException("El incremento debe ser positivo.");
-        }
-        velocidad += incremento;
-    }
-
-    public void frenar(int decremento) throws VehiculoException {
-        if (!encendido) {
-            throw new VehiculoException("Debe encender el vehículo primero.");
-        }
-        if (decremento <= 0) {
-            throw new VehiculoException("El decremento debe ser positivo.");
-        }
-        if (decremento > velocidad) {
-            throw new VehiculoException("No puede frenar más de la velocidad actual.");
-        }
-        velocidad -= decremento;
     }
 
     public boolean isEncendido() {
@@ -75,5 +36,34 @@ public class Vehiculo {
 
     public Llantas getLlantas() {
         return llantas;
+    }
+
+    public void encender() throws VehiculoException {
+        if (encendido) {
+            throw new VehiculoException("El vehículo ya esta encendido.");
+        }
+        encendido = true;
+    }
+
+    public void apagar() throws VehiculoException {
+        if (!encendido) {
+            throw new VehiculoException("El vehículo ya esta apagado.");
+        }
+        if (velocidad > 0) {
+            throw new VehiculoException("No se puede apagar el vehículo en movimiento.");
+        }
+        encendido = false;
+    }
+
+    public void setVelocidad(int velocidad) {
+        this.velocidad = velocidad;
+    }
+
+    public void acelerar(int valor) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public void frenar(int valor) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
