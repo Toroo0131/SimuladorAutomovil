@@ -2,16 +2,56 @@
 package autonoma.simuladorautonoma.views;
 
 import autonoma.simuladorautomovil.models.Vehiculo;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
  
 
 public class VentanaPrincipal extends javax.swing.JFrame {
-    
+    private JPanel panelPrincipal;
+    private JLabel imagenCarro;
+    private JButton btnEncender, btnApagar, btnAcelerar, btnFrenar;
   
 
     public VentanaPrincipal(Vehiculo vehiculo) {
-        
-       
+         this.setTitle("Simulador Automovil");
+        this.setSize(800, 600);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.setLayout(new BorderLayout());
+
+        panelPrincipal = new JPanel();
+        panelPrincipal.setBackground(Color.BLACK);
+        panelPrincipal.setLayout(new BorderLayout());
+        this.add(panelPrincipal, BorderLayout.CENTER);
+
+        // Imagen del carro
+        ImageIcon iconoCarro = new ImageIcon(getClass().getResource("/autonoma/simuladorautonoma/images/car.png"));
+        imagenCarro = new JLabel(iconoCarro);
+        imagenCarro.setHorizontalAlignment(JLabel.CENTER);
+        panelPrincipal.add(imagenCarro, BorderLayout.CENTER);
+
+        // Panel de botones
+        JPanel panelBotones = new JPanel();
+        panelBotones.setBackground(Color.BLACK);
+        panelBotones.setLayout(new FlowLayout());
+
+        btnEncender = new JButton(new ImageIcon(getClass().getResource("/autonoma/simuladorautonoma/images/encender.png")));
+        btnApagar = new JButton(new ImageIcon(getClass().getResource("/autonoma/simuladorautonoma/images/apagar.png")));
+        btnAcelerar = new JButton(new ImageIcon(getClass().getResource("/autonoma/simuladorautonoma/images/acelerador.png")));
+        btnFrenar = new JButton(new ImageIcon(getClass().getResource("/autonoma/simuladorautonoma/images/pedal-de-freno.png")));
+
+        panelBotones.add(btnEncender);
+        panelBotones.add(btnApagar);
+        panelBotones.add(btnAcelerar);
+        panelBotones.add(btnFrenar);
+
+        this.add(panelBotones, BorderLayout.SOUTH);
     }
  
     @SuppressWarnings("unchecked")
@@ -184,15 +224,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jbEncenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEncenderActionPerformed
+    reproducirSonido("encender.wav");
+        LoggerArchivo.guardar("[Encender] Vehículo encendido");
+    });
 
     }//GEN-LAST:event_jbEncenderActionPerformed
 
     private void jbFrenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFrenarActionPerformed
- 
+    reproducirSonido("frenar.wav");
+        LoggerArchivo.guardar("[Frenar] Vehículo frenando");
+    });
+
     }//GEN-LAST:event_jbFrenarActionPerformed
 
     private void jbLlantasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLlantasActionPerformed
@@ -200,14 +246,28 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jbLlantasActionPerformed
 
     private void jbApagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbApagarActionPerformed
-
+     reproducirSonido("apagar.wav");
+        LoggerArchivo.guardar("[Apagar] Vehículo apagado");
+    });
 
     }//GEN-LAST:event_jbApagarActionPerformed
 
     private void jbAcelerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAcelerarActionPerformed
-
+     reproducirSonido("acelerar.wav");
+        LoggerArchivo.guardar("[Acelerar] Vehículo acelerando");
+    });
     }//GEN-LAST:event_jbAcelerarActionPerformed
 
+     private void reproducirSonido(String nombreArchivo) {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResource("/autonoma/simuladorautonoma/sonidos/" + nombreArchivo));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
