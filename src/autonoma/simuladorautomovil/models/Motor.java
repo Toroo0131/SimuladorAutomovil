@@ -4,41 +4,61 @@
  */
 package autonoma.simuladorautomovil.models;
 
+import autonoma.simuladorautomovil.exception.CapacidadMotorException;
+
 
 
 public class Motor {
-    private boolean enFuncionamiento;
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Atributos
+    private boolean encendido;
+    private double velocidadMaxima;
 
-    public Motor() {
-        this.enFuncionamiento = false;
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Constructor
+    public Motor(double velocidadMaxima) {
+        this.encendido = false;
+        this.velocidadMaxima = velocidadMaxima;
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Métodos de acceso
+
+    public boolean isEncendido() {
+        return encendido;
     }
 
-    public boolean isEnFuncionamiento() {
-        return enFuncionamiento;
+    public void setEncendido(boolean encendido) {
+        this.encendido = encendido;
     }
 
-    public void arrancar() {
-        this.enFuncionamiento = true;
+    public double getVelocidadMaxima() {
+        return velocidadMaxima;
     }
 
-    public void detener() {
-        this.enFuncionamiento = false;
+    public void setVelocidadMaxima(double velocidadMaxima) {
+        this.velocidadMaxima = velocidadMaxima;
     }
-
-    @Override
-    public String toString() {
-        return enFuncionamiento ? "Motor en funcionamiento" : "Motor detenido";
+    
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Métodos
+    
+    public void encender(){
+        this.encendido = true;
     }
-
-    public String isRevisado() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
+    public void apagar(){
+        this.encendido = false;
     }
-
-    public void setRevisado(boolean parseBoolean) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public String revisar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
+    
+    // Validar velocidad máxima
+    public void validarVelocidadMaxima(double velocidad) throws CapacidadMotorException{
+        if(velocidad>this.velocidadMaxima){
+            System.out.println("Ouch soy el motor y sobrepasaron mi velocidad");
+            throw new CapacidadMotorException();
+        }
     }
 }

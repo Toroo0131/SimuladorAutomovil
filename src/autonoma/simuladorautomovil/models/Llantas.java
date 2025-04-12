@@ -1,41 +1,26 @@
 
 package autonoma.simuladorautomovil.models;
 
-
+import autonoma.simmuladorautonoma.exception.PatinajeException;
 
 public class Llantas {
-    private int presion;
+    private double limiteVelocidad;
 
-    public Llantas() {
-        this.presion = 32; // Valor por defecto en psi
+    public Llantas(double limiteVelocidad) {
+        this.limiteVelocidad = limiteVelocidad;
     }
 
-    public int getPresion() {
-        return presion;
+    public double getLimiteVelocidad() {
+        return limiteVelocidad;
     }
 
-    public void inflar(int cantidad) {
-        this.presion += cantidad;
+    public void setLimiteVelocidad(double limiteVelocidad) {
+        this.limiteVelocidad = limiteVelocidad;
     }
 
-    public void desinflar(int cantidad) {
-        this.presion = Math.max(0, this.presion - cantidad);
-    }
-
-    @Override
-    public String toString() {
-        return "Presión actual de las llantas: " + presion + " psi";
-    }
-
-    public String isRevisadas() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public void setRevisadas(boolean parseBoolean) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public String revisar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void validarVelocidad(double velocidad) throws PatinajeException {
+        if (velocidad > this.limiteVelocidad) {
+            throw new PatinajeException();
+        }
     }
 }
