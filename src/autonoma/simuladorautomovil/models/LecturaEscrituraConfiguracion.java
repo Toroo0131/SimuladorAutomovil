@@ -59,7 +59,7 @@ public class LecturaEscrituraConfiguracion {
         List<String> lineas = new ArrayList<>();
 
         // ✅ Llamadas correctas
-        lineas.add("llantas " + ConfiguracionVehi.obtenerTipoLlantas(vehiculo.getLlantas().getLimiteVelocidad()));
+        lineas.add("llantas " + ConfiguracionVehi.obtenerTipoLlantas(vehiculo.getLlantas().getVelocidadLimite()));
         lineas.add("motor " + ConfiguracionVehi.obtenerCilindrajeDesdeVelocidad(vehiculo.getMotor().getVelocidadMaxima()));
 
         Files.write(archivo, lineas, charset);

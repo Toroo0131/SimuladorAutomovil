@@ -1,26 +1,17 @@
 
 package autonoma.simuladorautomovil.models;
 
-import autonoma.simmuladorautonoma.exception.PatinajeException;
+
 
 public class Llantas {
-    private double limiteVelocidad;
+    private double velocidadLimite;
 
-    public Llantas(double limiteVelocidad) {
-        this.limiteVelocidad = limiteVelocidad;
+    public Llantas(double velocidadLimite) {
+        this.velocidadLimite = velocidadLimite;
     }
 
-    public double getLimiteVelocidad() {
-        return limiteVelocidad;
-    }
-
-    public void setLimiteVelocidad(double limiteVelocidad) {
-        this.limiteVelocidad = limiteVelocidad;
-    }
-
-    public void validarVelocidad(double velocidad) throws PatinajeException {
-        if (velocidad > this.limiteVelocidad) {
-            throw new PatinajeException();
-        }
+    public double getVelocidadLimite() {
+        return velocidadLimite;
     }
 }
+

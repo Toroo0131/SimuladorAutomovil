@@ -2,10 +2,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package autonoma.simuladorautonoma.views;
+package autonoma.simuladorautomovil.views;
 
+import autonoma.simuladorautomovil.exception.AccidenteException;
+import autonoma.simuladorautomovil.exception.CapacidadMotorException;
+import autonoma.simuladorautomovil.exception.EstadoInvalidoException;
+import autonoma.simuladorautomovil.exception.FrenadoBruscoException;
+import autonoma.simuladorautomovil.exception.VehiculoApagadoException;
 import autonoma.simuladorautomovil.exception.VehiculoEncendidoException;
+import autonoma.simuladorautomovil.models.LecturaEscrituraConfiguracion;
 import autonoma.simuladorautomovil.models.Simulador;
+import autonoma.simuladorautomovil.models.Vehiculo;
+import java.io.IOException;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,12 +24,20 @@ import javax.swing.JOptionPane;
  * @author Salo
  */
 public class Ventana extends javax.swing.JFrame {
+    private Simulador simulador;
 
     /**
      * Creates new form Ventana
      */
-    public Ventana() {
+    public Ventana(Simulador simulador) {
         initComponents();
+        try {
+            Vehiculo vehiculo = LecturaEscrituraConfiguracion.leerConfiguracion("conf.txt");
+            simulador = new Simulador(vehiculo);
+           
+        } catch (IOException | IllegalArgumentException ex ) {
+           JOptionPane.showMessageDialog(this, "Error al cargar configuración: " + ex.getMessage());
+        }
     }
 
     /**
@@ -42,6 +61,15 @@ public class Ventana extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        Estado = new javax.swing.JLabel();
+        Velocidad = new javax.swing.JLabel();
+        llantas = new javax.swing.JLabel();
+        CilindrajeM = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,10 +92,25 @@ public class Ventana extends javax.swing.JFrame {
         });
 
         freno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/simuladorautomovil/images/pedal-de-freno.png"))); // NOI18N
+        freno.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                frenoMouseClicked(evt);
+            }
+        });
 
         acelerador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/simuladorautomovil/images/acelerador.png"))); // NOI18N
+        acelerador.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                aceleradorMouseClicked(evt);
+            }
+        });
 
         frenadoBrusco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/simuladorautomovil/images/Fremano (2).png"))); // NOI18N
+        frenadoBrusco.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                frenadoBruscoMouseClicked(evt);
+            }
+        });
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
         jLabel6.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
@@ -90,6 +133,65 @@ public class Ventana extends javax.swing.JFrame {
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Acelerador");
 
+        jPanel2.setBackground(new java.awt.Color(169, 169, 169));
+
+        jLabel2.setText("Estado del Vehiculo");
+
+        jLabel3.setText("Velocidad Actual");
+
+        jLabel4.setText("Limite de Llantas");
+
+        jLabel5.setText("Velocidad Max del Motor");
+
+        Estado.setText("Estado");
+
+        Velocidad.setText("Velocidad");
+
+        llantas.setText("Llantas");
+
+        CilindrajeM.setText("actual, ");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addGap(42, 42, 42)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(CilindrajeM)
+                    .addComponent(llantas)
+                    .addComponent(Velocidad)
+                    .addComponent(Estado))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(Estado))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(Velocidad))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(llantas))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(CilindrajeM, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -98,55 +200,63 @@ public class Ventana extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(86, 86, 86)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel6)
-                            .addComponent(apagar))
-                        .addGap(64, 64, 64)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jLabel8))
-                            .addComponent(encender, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addGap(33, 33, 33)
-                            .addComponent(jLabel10)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel11)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel9))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addGap(49, 49, 49)
-                            .addComponent(frenadoBrusco)
-                            .addGap(48, 48, 48)
-                            .addComponent(acelerador)
-                            .addGap(41, 41, 41)
-                            .addComponent(freno))))
-                .addContainerGap(757, Short.MAX_VALUE))
+                                .addGap(32, 32, 32)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel10)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel6)
+                                        .addComponent(apagar)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(70, 70, 70)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(encender, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel8)))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(37, 37, 37)
+                                        .addComponent(jLabel11)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                                        .addComponent(jLabel9))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(51, 51, 51)
+                                .addComponent(frenadoBrusco)
+                                .addGap(74, 74, 74)
+                                .addComponent(acelerador)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(freno)))
+                        .addGap(55, 55, 55))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel1)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(200, 200, 200)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(apagar)
-                    .addComponent(encender))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel8))
-                .addGap(43, 43, 43)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(frenadoBrusco)
+                .addGap(71, 71, 71)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(apagar)
+                            .addComponent(encender))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel8))
+                        .addGap(50, 50, 50)
+                        .addComponent(frenadoBrusco))
                     .addComponent(acelerador)
                     .addComponent(freno))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jLabel11)
-                    .addComponent(jLabel9)))
+                    .addComponent(jLabel9))
+                .addGap(76, 76, 76)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -170,21 +280,77 @@ public class Ventana extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void apagarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_apagarMouseClicked
-
+    try {
+        simulador.getVehiculo().apagar();
+        Apagar dialogo = new Apagar(this, true);
+        dialogo.setVisible(true);
+    } catch (EstadoInvalidoException ex) {
+        JOptionPane.showMessageDialog(this, ex.getMessage());
+    }
+   
     }//GEN-LAST:event_apagarMouseClicked
 
     private void encenderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_encenderMouseClicked
-             try {
-                    Simulador.encenderVehiculo();
-                    // Opcional: mostrar GIF
-                    JOptionPane.showMessageDialog(null, "Vehículo encendido", "Encendido", JOptionPane.INFORMATION_MESSAGE);
-                } catch (VehiculoEncendidoException ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
+try {
+        simulador.getVehiculo().encender();
+        Encender dialogo = new Encender(this, true);
+        dialogo.setVisible(true);
+    } catch (EstadoInvalidoException ex) {
+        JOptionPane.showMessageDialog(this, ex.getMessage());
+    }
+   
     }//GEN-LAST:event_encenderMouseClicked
 
+    private void aceleradorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aceleradorMouseClicked
+    String input = JOptionPane.showInputDialog(this, "Ingrese cuántos Km/h desea acelerar:");
+    try {
+        double incremento = Double.parseDouble(input);
+        simulador.getVehiculo().acelerar(incremento);
+        Acelerar dialogo = new Acelerar(this, true);
+        dialogo.setVisible(true);
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "Entrada inválida.");
+    } catch (VehiculoApagadoException ex) {
+        JOptionPane.showMessageDialog(this, "No se puede acelerar si el vehículo está apagado.");
+    }
+    
+    }//GEN-LAST:event_aceleradorMouseClicked
+
+    private void frenoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_frenoMouseClicked
+    String input = JOptionPane.showInputDialog(this, "Ingrese cuántos Km/h desea frenar:");
+    try {
+        double freno = Double.parseDouble(input);
+        simulador.getVehiculo().frenar(freno);
+        mostrarGif("recursos/frenar.gif");
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "Entrada inválida.");
+    } catch (VehiculoApagadoException ex) {
+        JOptionPane.showMessageDialog(this, "No se puede frenar si el vehículo está apagado.");
+    }
+
+    }//GEN-LAST:event_frenoMouseClicked
+
+    private void frenadoBruscoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_frenadoBruscoMouseClicked
+    try {
+        simulador.getVehiculo().frenarBruscamente();
+        mostrarGif("recursos/frenar_brusco.gif");
+    } catch (VehiculoApagadoException ex) {
+        JOptionPane.showMessageDialog(this, "No se puede frenar si el vehículo está apagado.");
+    }
+
+    }//GEN-LAST:event_frenadoBruscoMouseClicked
+
+private void mostrarGif(String ruta) {
+    ImageIcon gif = new ImageIcon(ruta);
+    JLabel label = new JLabel(gif);
+    JOptionPane.showMessageDialog(this, label, "Acción", JOptionPane.PLAIN_MESSAGE);
+}
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel CilindrajeM;
+    private javax.swing.JLabel Estado;
+    private javax.swing.JLabel Velocidad;
     private javax.swing.JLabel acelerador;
     private javax.swing.JLabel apagar;
     private javax.swing.JLabel encender;
@@ -193,9 +359,15 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel llantas;
     // End of variables declaration//GEN-END:variables
 }

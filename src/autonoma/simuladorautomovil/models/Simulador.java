@@ -17,28 +17,13 @@ import autonoma.simuladorautomovil.exception.VehiculoEncendidoException;
  */
 public class Simulador {
     
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Atributos
-    private Vehiculo vehiculo;
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Constructor
+   private Vehiculo vehiculo;
 
     public Simulador(Vehiculo vehiculo) {
         this.vehiculo = vehiculo;
     }
-    
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Métodos
-    public void encenderVehiculo() throws VehiculoEncendidoException{
-        vehiculo.encender();
+
+    public Vehiculo getVehiculo() {
+        return vehiculo;
     }
-    
-    public void apagarVehiculo() throws VehiculoApagadoException, AccidenteException{
-        vehiculo.apagar();
-    }
-    
-    public void acelerarVehiculo(double velocidad)throws CapacidadMotorException, VehiculoApagadoException, EstadoInvalidoException{
-       vehiculo.acelerar(velocidad);
-       
-    }  
 }

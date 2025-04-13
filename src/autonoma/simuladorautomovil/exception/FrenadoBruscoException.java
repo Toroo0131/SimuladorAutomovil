@@ -10,6 +10,6 @@ package autonoma.simuladorautomovil.exception;
  */
 public class FrenadoBruscoException extends Exception {
         public FrenadoBruscoException() {
-        super("¡Frenado brusco detectado! La intensidad de frenado supera los 30 Km/h.");
+        super("¡Frenado brusco detectado! La intensidad de frenado supera los 60 Km/h.");
     }
 }
